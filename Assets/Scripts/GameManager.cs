@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -8,7 +9,8 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private int _numberOfPlayers;
-
+    private List<Player> _playersList = new List<Player>();
+    
     private float placeHolderSpaceVariable = 25;
 
     private void OnEnable()
@@ -36,7 +38,9 @@ public class GameManager : MonoBehaviour
         
         for (int i = 0; i < _numberOfPlayers; i++)
         {
-            Instantiate(_playerPrefab,  currentPosition, Quaternion.identity, transform);
+            var player = Instantiate(_playerPrefab,  currentPosition, Quaternion.identity, transform);
+            _playersList.Add(player.GetComponent<Player>());
+            
             currentPosition.x += placeHolderSpaceVariable;
         }
         
@@ -45,9 +49,9 @@ public class GameManager : MonoBehaviour
 
     private void AssignWords()
     {
-        for (int i = 0; i < _numberOfPlayers; i++)
+        foreach (var player in _playersList)
         {
-            string word = _wordsPool.RetrieveWord();
+            player.AssignWordTarget(_wordsPool.RetrieveWord());
         }
     }
     
@@ -55,7 +59,12 @@ public class GameManager : MonoBehaviour
     {
         if (char.IsLetterOrDigit(character))
         {
-            Debug.Log($"Alphanumeric key pressed: {character}");
+            foreach (var player in _playersList)
+            {
+                player.TryTypeLetter(character);
+            }
+            
+            //TODO: check win (decouple from TryTypeLetter, in case of ties), I guess
         }
     }
 }
