@@ -15,14 +15,16 @@ public class Player : MonoBehaviour
     {
         _wordTarget = wordTarget.ToLower();
         _wordIndex = 0;
+        
+        _wordTargetText.text = wordTarget;
+        _wordProgressText.text = "";
     }
 
     public void TryTypeLetter(char character)
     {
         if (character == _wordTarget[_wordIndex])
         {
-            Debug.Log(character);
-            //TODO: Update UI ; _wordProgressText
+            UpdateProgressTextUI(character);
             _wordIndex++;
 
             if (_wordIndex >= _wordTarget.Length)
@@ -30,6 +32,11 @@ public class Player : MonoBehaviour
                 Win();
             }
         }
+    }
+
+    private void UpdateProgressTextUI(char character)
+    {
+        _wordProgressText.text += character;
     }
 
     public void Win()
