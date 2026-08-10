@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,6 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private int _numberOfPlayers;
     private List<Player> _playersList = new List<Player>();
+    
+    private GameState _gameState = GameState.Typing;
+    
     
     private float placeHolderSpaceVariable = 25;
 
@@ -39,7 +43,11 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < _numberOfPlayers; i++)
         {
             var player = Instantiate(_playerPrefab,  currentPosition, Quaternion.identity, transform);
-            _playersList.Add(player.GetComponent<Player>());
+            
+            var playerComponent = player.GetComponent<Player>(); 
+            _playersList.Add(playerComponent);
+            playerComponent.GameWon += OnWin;
+            playerComponent.SetPlayerIndex(i+1);
             
             currentPosition.x += placeHolderSpaceVariable;
         }
@@ -57,6 +65,8 @@ public class GameManager : MonoBehaviour
     
     private void HandleTextInput(char character)
     {
+        if (_gameState != GameState.Typing) return;
+        
         if (char.IsLetterOrDigit(character))
         {
             foreach (var player in _playersList)
@@ -67,8 +77,21 @@ public class GameManager : MonoBehaviour
             //TODO: check win (decouple from TryTypeLetter, in case of ties), I guess
         }
     }
+
+    public void OnWin(int playerIndex)
+    {
+        //TODO: Show victory message with playerIndex
+        
+        Debug.Log("Player " + playerIndex + " wins!");
+        _gameState = GameState.WinScreen;
+    }
 }
 
+public enum GameState
+{
+    Typing,
+    WinScreen
+}
 
 
 
