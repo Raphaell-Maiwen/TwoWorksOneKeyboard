@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -57,9 +58,11 @@ public class GameManager : MonoBehaviour
 
     private void AssignWords()
     {
+        int wordListIndex = Random.Range(0, _wordsPool.WordListsCount);
+        
         foreach (var player in _playersList)
         {
-            player.AssignWordTarget(_wordsPool.RetrieveWord());
+            player.AssignWordTarget(_wordsPool.RetrieveWord(wordListIndex));
         }
     }
     
