@@ -1,41 +1,60 @@
 using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WordsPool", menuName = "Scriptable Objects/WordsPool")]
 public class WordsPool : ScriptableObject
 {
-    [SerializeField] private List<string> _words;
-    private List<string> _wordsCopy = new List<string>();
+    [SerializeField] private List<ListWrapper> _wordsLists;
+    public int WordListsCount => _wordsLists.Count;
+    private List<ListWrapper> _wordsCopy = new List<ListWrapper>();
     
 
     void OnEnable()
     {
-        FillWordsPool();
+        for (int i = 0; i < _wordsLists.Count; i++)
+        {
+            FillWordsPool(i);
+        }
     }
 
-    public string RetrieveWord()
+    public string RetrieveWord(int wordListIndex)
     {
-        string word = _wordsCopy[Random.Range(0, _wordsCopy.Count)];
-        _wordsCopy.Remove(word);
+        string word = _wordsCopy[wordListIndex].words[Random.Range(0, _wordsCopy.Count)];
+        _wordsCopy[wordListIndex].words.Remove(word);
 
-        if (_wordsCopy.Count == 0)
+        if (_wordsCopy[wordListIndex].words.Count == 0)
         {
-            FillWordsPool();
+            FillWordsPool(wordListIndex);
         }
         
         Debug.Log(word);
-
         return word;
     }
     
-    private void FillWordsPool()
+    //Refactor to multiple lists
+    private void FillWordsPool(int listIndex)
     {
-        _wordsCopy.Clear();
-        foreach (string word in _words)
+        if (_wordsCopy.Count <= listIndex)
         {
-            _wordsCopy.Add(word);
+            _wordsCopy.Add(new ListWrapper());
+        }
+        else
+        {
+            _wordsCopy[listIndex].words.Clear();
+        }
+        
+        foreach (string word in _wordsLists[listIndex].words)
+        {
+            _wordsCopy[listIndex].words.Add(word);
         }
     }
+}
+
+[System.Serializable]
+public class ListWrapper
+{
+    public List<string> words = new List<string>();
 }
 
 

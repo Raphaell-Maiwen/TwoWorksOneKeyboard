@@ -12,12 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d185fa16c6d3b245866b023b3d01761, type: 3}
   m_Name: WordsPool
   m_EditorClassIdentifier: Assembly-CSharp::WordsPool
-  _words:
-  - Wowzy
-  - Treat
-  - puppy
-  - qwert
-  - trans
-  - waifu
-  - yummy
-  - yuiop
+  _wordsLists:
+  - words:
+    - what
+    - zorg
+    - trap
+    - four
+    - five
+    - jack
+  - words:
+    - flash
+    - yummy
+    - treat
+    - puppy
+    - trans
+    - house
