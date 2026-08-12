@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "name": "WordsBattle",
+    "maps": [
+        {
+            "name": "EndOfGame",
+            "id": "ea4efe31-c45d-42e6-b620-0f2e761c7269",
+            "actions": [
+                {
+                    "name": "Enter",
+                    "type": "Button",
+                    "id": "a53adca7-3e71-4dd1-9689-7f060f9c4813",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a6a9f4af-dfea-43de-8b5a-83120ba0d4c0",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Enter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
