@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -17,6 +18,11 @@ public class GameManager : MonoBehaviour
     
     
     private float placeHolderSpaceVariable = 25;
+
+    [SerializeField] private TextMeshProUGUI _victoryMessage;
+    [SerializeField] private TextMeshProUGUI _replayMessage;
+    
+    private InputAction enterAction;
 
     private void OnEnable()
     {
@@ -36,10 +42,18 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
+        SetUpNewGame();
+        ResetGame();
+    }
+
+    void SetUpNewGame()
+    {
         var currentPosition = transform.position;
         currentPosition.x -= 100;
 
         var newRot = transform.rotation;
+        enterAction = new InputAction(binding: "<Keyboard>/enter");
+        
         
         for (int i = 0; i < _numberOfPlayers; i++)
         {
@@ -52,8 +66,15 @@ public class GameManager : MonoBehaviour
             
             currentPosition.x += placeHolderSpaceVariable;
         }
+    }
+
+    void ResetGame()
+    {
+        _victoryMessage.gameObject.SetActive(false);
+        _replayMessage.gameObject.SetActive(false);
         
         AssignWords();
+        _gameState = GameState.Typing;
     }
 
     private void AssignWords()
@@ -81,11 +102,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void HandleEnter()
+    {
+        if (_gameState != GameState.WinScreen) return;
+        
+        ResetGame();
+
+        //Escape to get back to main menu
+    }
+
     public void OnWin(int playerIndex)
     {
-        //TODO: Show victory message with playerIndex
+        _victoryMessage.gameObject.SetActive(true);
+        _victoryMessage.text = "Player " + playerIndex + " wins!";
+        _replayMessage.gameObject.SetActive(true);
         
-        Debug.Log("Player " + playerIndex + " wins!");
         _gameState = GameState.WinScreen;
     }
 }
