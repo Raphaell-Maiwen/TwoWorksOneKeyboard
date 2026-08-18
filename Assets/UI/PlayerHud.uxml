@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/PlayerHud.uss?fileID=7433441132597879392&amp;guid=6cf5e412971d72e42a9cbfebe1dfc10a&amp;type=3#PlayerHud"/>
+    <ui:VisualElement name="hud-root" class="hud-root" style="flex-grow: 1;"/>
+</ui:UXML>
