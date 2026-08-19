@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using NUnit.Framework;
+using System.Linq;
+using Newtonsoft.Json;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WordsPool", menuName = "Scriptable Objects/WordsPool")]
@@ -8,13 +9,44 @@ public class WordsPool : ScriptableObject
     [SerializeField] private List<ListWrapper> _wordsLists;
     public int WordListsCount => _wordsLists.Count;
     private List<ListWrapper> _wordsCopy = new List<ListWrapper>();
-    
+    private TextAsset wordsJson;
+    private Dictionary<string, List<string>> allWords;
+    private List<string> wordLengths;
 
     void OnEnable()
     {
+        wordsJson = Resources.Load("wordList/wordList") as TextAsset;
+        allWords = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(wordsJson.text);
+        wordLengths = allWords.Keys.ToList();
+            
         for (int i = 0; i < _wordsLists.Count; i++)
         {
             FillWordsPool(i);
+        }
+    }
+
+    public bool WordFilter(string pickedWord, string listWord)
+    {
+        foreach (var character in pickedWord)
+        {
+            if (listWord.Contains(character.ToString()))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void AssignWords(List<Player> playersList)
+    {
+        List<string> words = new List<string>(allWords[wordLengths[Random.Range(0, wordLengths.Count)]]);
+        
+        foreach (var player in playersList)
+        {
+            string word = words[Random.Range(0, words.Count)];
+            player.AssignWordTarget(word);
+            words = words.Where(w => WordFilter(word, w)).ToList();
+            Debug.Log(word);
         }
     }
 
@@ -28,7 +60,6 @@ public class WordsPool : ScriptableObject
             FillWordsPool(wordListIndex);
         }
         
-        Debug.Log(word);
         return word;
     }
     

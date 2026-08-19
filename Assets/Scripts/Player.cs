@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
         
         _wordTargetText.text = wordTarget;
         _wordProgressText.text = "";
+        Debug.Log(_wordTarget);
     }
 
     public void TryTypeLetter(char character)
