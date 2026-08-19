@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="player-block" class="player-block">
+        <ui:Label name="name-label" text="Name" class="block-text" />
+        <ui:Label name="stat-label" text="Stat" class="block-text" />
+        <ui:Label name="status-label" text="Status" class="block-text" />
+    </ui:VisualElement>
+</ui:UXML>
