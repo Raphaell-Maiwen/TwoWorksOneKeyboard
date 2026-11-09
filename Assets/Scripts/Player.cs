@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _wordTargetText;
-    [SerializeField] private TextMeshProUGUI _wordProgressText;
-    [SerializeField] private TextMeshProUGUI _victoriesText;
+    //Put the UXML variables here?
 
     private string _wordTarget;
     private int _wordIndex;
@@ -14,6 +12,13 @@ public class Player : MonoBehaviour
     
     public event Action<int> GameWon;
     private int _playerIndex;
+
+    private PlayerBlockView _blockView;
+
+    public void SetBlockView(PlayerBlockView blockView)
+    {
+        _blockView = blockView;
+    }
 
     public void SetPlayerIndex(int playerIndex)
     {
@@ -25,8 +30,9 @@ public class Player : MonoBehaviour
         _wordTarget = wordTarget.ToLower();
         _wordIndex = 0;
         
-        _wordTargetText.text = wordTarget;
-        _wordProgressText.text = "";
+        _blockView.SetTargetWord(wordTarget);
+        _blockView.SetTyped("");
+        
         Debug.Log(_wordTarget);
     }
 
@@ -46,7 +52,7 @@ public class Player : MonoBehaviour
 
     private void UpdateProgressTextUI(char character)
     {
-        _wordProgressText.text += character;
+        _blockView.AddTypedCharacter(character);
     }
 
     public void Win()

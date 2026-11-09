@@ -14,8 +14,23 @@ public class PlayerBlockView
     public void SetData(PlayerData data)
     {
         nameLabel.text = data.Name;
-        statLabel.text = data.Stat;
+        statLabel.text = data.TargetWord;
         statusLabel.text = data.Typed;
+    }
+
+    public void SetTargetWord(string  targetWord)
+    {
+        statLabel.text = targetWord;
+    }
+
+    public void SetTyped(string typed)
+    {
+        statusLabel.text = typed;
+    }
+
+    public void AddTypedCharacter(char character)
+    {
+        statusLabel.text += character;
     }
 }
 
@@ -23,6 +38,6 @@ public class PlayerBlockView
 public class PlayerData
 {
     public string Name;
-    public string Stat;
+    public string TargetWord;
     public string Typed;
 }

@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "WordsPool", menuName = "Scriptable Objects/WordsPool")]
 public class WordsPool : ScriptableObject
@@ -11,7 +13,9 @@ public class WordsPool : ScriptableObject
     private List<ListWrapper> _wordsCopy = new List<ListWrapper>();
     private TextAsset wordsJson;
     private Dictionary<string, List<string>> allWords;
+    public Dictionary<string, List<string>> AllWords => allWords;
     private List<string> wordLengths;
+    public List<string> WordLengths => wordLengths;
 
     void OnEnable()
     {
@@ -22,31 +26,6 @@ public class WordsPool : ScriptableObject
         for (int i = 0; i < _wordsLists.Count; i++)
         {
             FillWordsPool(i);
-        }
-    }
-
-    public bool WordFilter(string pickedWord, string listWord)
-    {
-        foreach (var character in pickedWord)
-        {
-            if (listWord.Contains(character.ToString()))
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public void AssignWords(List<Player> playersList)
-    {
-        List<string> words = new List<string>(allWords[wordLengths[Random.Range(0, wordLengths.Count)]]);
-        
-        foreach (var player in playersList)
-        {
-            string word = words[Random.Range(0, words.Count)];
-            player.AssignWordTarget(word);
-            words = words.Where(w => WordFilter(word, w)).ToList();
-            Debug.Log(word);
         }
     }
 

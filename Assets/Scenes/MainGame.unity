@@ -664,6 +664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50996a59b37a3245992d4728f1933c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  _playerHudManager: {fileID: 654284120}
   _wordsPool: {fileID: 11400000, guid: 3ab2e3993463b624fbf64a74c9853ede, type: 2}
   _playerPrefab: {fileID: 6743745911275649982, guid: ea1a837bb6b025a4684c47666f2c8a7e, type: 3}
   _numberOfPlayers: 2

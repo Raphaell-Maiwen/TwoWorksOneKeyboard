@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,10 +9,13 @@ using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private PlayerHudManager _playerHudManager;
     [SerializeField] private WordsPool _wordsPool;
     
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private int _numberOfPlayers;
+    public int NumberOfPlayers => _numberOfPlayers;
+    
     private List<Player> _playersList = new List<Player>();
     
     private GameState _gameState = GameState.Typing;
@@ -24,12 +28,17 @@ public class GameManager : MonoBehaviour
     
     private InputAction enterAction;
 
+    public Action<int> OnGameStarted;
+    public Action<int, string> OnWordChanged;
+
     private void OnEnable()
     {
         if (Keyboard.current != null)
         {
             Keyboard.current.onTextInput += HandleTextInput;
         }
+
+        OnGameStarted += _playerHudManager.OnGameStart;
     }
 
     private void OnDisable()
@@ -38,10 +47,14 @@ public class GameManager : MonoBehaviour
         {
             Keyboard.current.onTextInput -= HandleTextInput;
         }
+        
+        OnGameStarted -= _playerHudManager.OnGameStart;
     }
     
     private void Start()
     {
+        OnGameStarted?.Invoke(_numberOfPlayers);
+        
         SetUpNewGame();
         ResetGame();
     }
@@ -65,6 +78,8 @@ public class GameManager : MonoBehaviour
             playerComponent.SetPlayerIndex(i+1);
             
             currentPosition.x += placeHolderSpaceVariable;
+            
+            playerComponent.SetBlockView(_playerHudManager.GetPlayerBlockView(i));
         }
     }
 
@@ -73,17 +88,35 @@ public class GameManager : MonoBehaviour
         _victoryMessage.gameObject.SetActive(false);
         _replayMessage.gameObject.SetActive(false);
         
-        _wordsPool.AssignWords(_playersList);
+        AssignWords(_playersList);
         _gameState = GameState.Typing;
     }
-
-    private void AssignWords()
+    
+    public bool WordFilter(string pickedWord, string listWord)
     {
-        int wordListIndex = Random.Range(0, _wordsPool.WordListsCount);
-        
-        foreach (var player in _playersList)
+        foreach (var character in pickedWord)
         {
-            player.AssignWordTarget(_wordsPool.RetrieveWord(wordListIndex));
+            if (listWord.Contains(character.ToString()))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void AssignWords(List<Player> playersList)
+    {
+        List<string> words = new List<string>(_wordsPool.
+            AllWords[_wordsPool.WordLengths[Random.Range(0, _wordsPool.WordLengths.Count)]]);
+        
+        for (int i = 0; i < playersList.Count; i++)
+        {
+            string word = words[Random.Range(0, words.Count)];
+            playersList[i].AssignWordTarget(word);
+            words = words.Where(w => WordFilter(word, w)).ToList();
+            Debug.Log(word);
+            
+            OnWordChanged?.Invoke(i, word);
         }
     }
     

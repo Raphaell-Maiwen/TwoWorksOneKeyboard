@@ -9,19 +9,16 @@ public class PlayerHudManager : MonoBehaviour
 
     readonly List<PlayerBlockView> blocks = new();
 
-    void Start()
+    public void OnGameStart(int numberOfPlayers)
     {
-        // Example call — replace with your real player list source
-        // BuildLayout(playersFromLobby);
-        
-        BuildLayout(new List<PlayerData>
+        List<PlayerData> playerDatas = new List<PlayerData>();
+
+        for (int i = 0; i < numberOfPlayers; i++)
         {
-            new PlayerData { Name = "Player 1", Stat = "worded", Typed = "wor"},
-            new PlayerData { Name = "Player 2", Stat = "petted", Typed = "pet"},
-            new PlayerData { Name = "Player 3", Stat = "petted", Typed = "pet"},
-            new PlayerData { Name = "Player 4", Stat = "petted", Typed = "pet"},
-            new PlayerData { Name = "Player 5", Stat = "petted", Typed = "pet"},
-        });
+            playerDatas.Add(new PlayerData{ Name = "Player " + (i+1), TargetWord = "test", Typed = "" });
+        }
+        
+        BuildLayout(playerDatas);
     }
 
     public void BuildLayout(List<PlayerData> players)
@@ -48,6 +45,16 @@ public class PlayerHudManager : MonoBehaviour
             }
             root.Add(row);
         }
+    }
+    
+    public void SetTypedWordLabel(int playerIndex, string word)
+    {
+        blocks[playerIndex].SetTyped(word);
+    }
+
+    public PlayerBlockView GetPlayerBlockView(int index)
+    {
+        return blocks[index];
     }
 
     static int[] GetRowSplit(int n) => n switch
