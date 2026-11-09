@@ -9,12 +9,11 @@ using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private Parameters _parameters;
     [SerializeField] private PlayerHudManager _playerHudManager;
     [SerializeField] private WordsPool _wordsPool;
     
     [SerializeField] private GameObject _playerPrefab;
-    [SerializeField] private int _numberOfPlayers;
-    public int NumberOfPlayers => _numberOfPlayers;
     
     private List<Player> _playersList = new List<Player>();
     
@@ -53,7 +52,7 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
-        OnGameStarted?.Invoke(_numberOfPlayers);
+        OnGameStarted?.Invoke(_parameters.NumberOfPlayers);
         
         SetUpNewGame();
         ResetGame();
@@ -68,7 +67,7 @@ public class GameManager : MonoBehaviour
         enterAction = new InputAction(binding: "<Keyboard>/enter");
         
         
-        for (int i = 0; i < _numberOfPlayers; i++)
+        for (int i = 0; i < _parameters.NumberOfPlayers; i++)
         {
             var player = Instantiate(_playerPrefab,  currentPosition, Quaternion.identity, transform);
             
@@ -142,6 +141,7 @@ public class GameManager : MonoBehaviour
         ResetGame();
 
         //Escape to get back to main menu
+        //Remove enter thingy here
     }
 
     public void OnWin(int playerIndex)
