@@ -73,7 +73,6 @@ public class GameManager : MonoBehaviour
         _victoryMessage.gameObject.SetActive(false);
         _replayMessage.gameObject.SetActive(false);
         
-        //AssignWords();
         _wordsPool.AssignWords(_playersList);
         _gameState = GameState.Typing;
     }
