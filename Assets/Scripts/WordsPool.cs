@@ -12,21 +12,13 @@ public class WordsPool : ScriptableObject
     public int WordListsCount => _wordsLists.Count;
     private List<ListWrapper> _wordsCopy = new List<ListWrapper>();
     private TextAsset wordsJson;
-    private Dictionary<string, List<string>> allWords;
-    public Dictionary<string, List<string>> AllWords => allWords;
-    private List<string> wordLengths;
-    public List<string> WordLengths => wordLengths;
+    private List<List<string>> allWords;
+    public List<List<string>> AllWords => allWords;
 
     void OnEnable()
     {
         wordsJson = Resources.Load("wordList/wordList") as TextAsset;
-        allWords = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(wordsJson.text);
-        wordLengths = allWords.Keys.ToList();
-            
-        for (int i = 0; i < _wordsLists.Count; i++)
-        {
-            FillWordsPool(i);
-        }
+        allWords = JsonConvert.DeserializeObject<List<List<string>>>(wordsJson.text);
     }
 
     public string RetrieveWord(int wordListIndex)

@@ -106,8 +106,16 @@ public class GameManager : MonoBehaviour
 
     public void AssignWords(List<Player> playersList)
     {
-        List<string> words = new List<string>(_wordsPool.
-            AllWords[_wordsPool.WordLengths[Random.Range(0, _wordsPool.WordLengths.Count)]]);
+        List<string> words;
+        if (_numberOfPlayers > 2)
+        {
+            words = new List<string>(_wordsPool.AllWords[1]);
+            
+        }
+        else
+        {
+            words = new List<string>(_wordsPool.AllWords[Random.Range(0, 3)]);
+        }
         
         for (int i = 0; i < playersList.Count; i++)
         {
