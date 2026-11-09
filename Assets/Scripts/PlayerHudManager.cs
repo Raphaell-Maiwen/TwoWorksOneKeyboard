@@ -16,10 +16,11 @@ public class PlayerHudManager : MonoBehaviour
         
         BuildLayout(new List<PlayerData>
         {
-            new PlayerData { Name = "P1", Stat = "10", Status = "Alive" },
-            new PlayerData { Name = "P2", Stat = "8", Status = "Alive" },
-            new PlayerData { Name = "P3", Stat = "5", Status = "Down" },
-            new PlayerData { Name = "P4", Stat = "4", Status = "Down" },
+            new PlayerData { Name = "Player 1", Stat = "worded", Typed = "wor"},
+            new PlayerData { Name = "Player 2", Stat = "petted", Typed = "pet"},
+            new PlayerData { Name = "Player 3", Stat = "petted", Typed = "pet"},
+            new PlayerData { Name = "Player 4", Stat = "petted", Typed = "pet"},
+            new PlayerData { Name = "Player 5", Stat = "petted", Typed = "pet"},
         });
     }
 

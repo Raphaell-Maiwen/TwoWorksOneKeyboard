@@ -8,14 +8,14 @@ public class PlayerBlockView
     {
         nameLabel = root.Q<Label>("name-label");
         statLabel = root.Q<Label>("stat-label");
-        statusLabel = root.Q<Label>("status-label");
+        statusLabel = root.Q<Label>("typed-label");
     }
 
     public void SetData(PlayerData data)
     {
         nameLabel.text = data.Name;
         statLabel.text = data.Stat;
-        statusLabel.text = data.Status;
+        statusLabel.text = data.Typed;
     }
 }
 
@@ -24,5 +24,5 @@ public class PlayerData
 {
     public string Name;
     public string Stat;
-    public string Status;
+    public string Typed;
 }
