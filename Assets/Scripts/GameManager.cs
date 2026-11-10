@@ -98,6 +98,7 @@ public class GameManager : MonoBehaviour
         {
             if (listWord.Contains(character.ToString()))
             {
+                // Debug.Log(pickedWord + ", " + listWord);
                 return false;
             }
         }
@@ -107,25 +108,39 @@ public class GameManager : MonoBehaviour
     public void AssignWords(List<Player> playersList)
     {
         List<string> words;
-        if (_numberOfPlayers > 2)
+
+        Boolean valid;
+        int maxTries = 0;
+        do
         {
-            words = new List<string>(_wordsPool.AllWords[1]);
+            if (_numberOfPlayers > 2)
+            {
+                words = new List<string>(_wordsPool.AllWords[1]);
             
-        }
-        else
-        {
-            words = new List<string>(_wordsPool.AllWords[Random.Range(0, 3)]);
-        }
-        
-        for (int i = 0; i < playersList.Count; i++)
-        {
-            string word = words[Random.Range(0, words.Count)];
-            playersList[i].AssignWordTarget(word);
-            words = words.Where(w => WordFilter(word, w)).ToList();
-            Debug.Log(word);
+            }
+            else
+            {
+                words = new List<string>(_wordsPool.AllWords[Random.Range(0, 3)]);
+            }
             
-            OnWordChanged?.Invoke(i, word);
-        }
+            valid = true;
+            maxTries += 1;
+            for (int i = 0; i < playersList.Count; i++)
+            {
+                if (words.Count == 0)
+                {
+                    valid = false;
+                    Debug.Log(maxTries);
+                    break;
+                }
+
+                string word = words[Random.Range(0, words.Count)];
+                playersList[i].AssignWordTarget(word);
+                words = words.Where(w => WordFilter(word, w)).ToList();
+
+                OnWordChanged?.Invoke(i, word);
+            }
+        } while (!valid && maxTries <= 100000);
     }
     
     private void HandleTextInput(char character)
