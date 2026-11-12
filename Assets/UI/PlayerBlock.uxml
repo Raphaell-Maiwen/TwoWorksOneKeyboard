@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="player-block" class="player-block">
+    <ui:VisualElement name="player-block" class="player-block" style="background-color: rgb(152, 84, 203);">
         <ui:Label name="name-label" text="Name" class="block-text"/>
         <ui:Label name="stat-label" text="Stat" class="block-text"/>
         <ui:Label name="typed-label" text="typed" class="block-text"/>

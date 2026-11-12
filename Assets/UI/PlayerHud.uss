@@ -12,7 +12,7 @@
 }
 
 .player-block {
-    background-color: rgb(3, 255, 0);
+    background-color: rgb(152, 84, 203);
     padding: 25px;
     border-radius: 25px;
 }
