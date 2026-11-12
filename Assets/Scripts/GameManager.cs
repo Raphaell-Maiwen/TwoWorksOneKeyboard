@@ -106,25 +106,39 @@ public class GameManager : MonoBehaviour
     public void AssignWords(List<Player> playersList)
     {
         List<string> words;
-        if (_parameters.NumberOfPlayers > 2)
-        {
-            words = new List<string>(_wordsPool.AllWords[1]);
-            
-        }
-        else
-        {
-            words = new List<string>(_wordsPool.AllWords[Random.Range(0, 3)]);
-        }
         
-        for (int i = 0; i < playersList.Count; i++)
+        bool valid;
+        int maxTries = 0;
+        do
         {
-            string word = words[Random.Range(0, words.Count)];
-            playersList[i].AssignWordTarget(word);
-            words = words.Where(w => WordFilter(word, w)).ToList();
-            Debug.Log(word);
+            if (_parameters.NumberOfPlayers > 2)
+            {
+                words = new List<string>(_wordsPool.AllWords[1]);
             
-            OnWordChanged?.Invoke(i, word);
-        }
+            }
+            else
+            {
+                words = new List<string>(_wordsPool.AllWords[Random.Range(0, 3)]);
+            }
+            
+            valid = true;
+            maxTries += 1;
+            for (int i = 0; i < playersList.Count; i++)
+            {
+                if (words.Count == 0)
+                {
+                    valid = false;
+                    Debug.Log(maxTries);
+                    break;
+                }
+
+                string word = words[Random.Range(0, words.Count)];
+                playersList[i].AssignWordTarget(word);
+                words = words.Where(w => WordFilter(word, w)).ToList();
+
+                OnWordChanged?.Invoke(i, word);
+            }
+        } while (!valid && maxTries <= 100000);
     }
     
     private void HandleTextInput(char character)
@@ -155,7 +169,7 @@ public class GameManager : MonoBehaviour
     public void OnWin(int playerIndex)
     {
         _victoryMessage.gameObject.SetActive(true);
-        _victoryMessage.text = "Player " + playerIndex + " wins!";
+        _victoryMessage.text = "Joueur " + playerIndex + " gagne!";
         _replayMessage.gameObject.SetActive(true);
         
         _gameState = GameState.WinScreen;
