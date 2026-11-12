@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
     public void AssignWords(List<Player> playersList)
     {
         List<string> words;
-        if (_numberOfPlayers > 2)
+        if (_parameters.NumberOfPlayers > 2)
         {
             words = new List<string>(_wordsPool.AllWords[1]);
             
