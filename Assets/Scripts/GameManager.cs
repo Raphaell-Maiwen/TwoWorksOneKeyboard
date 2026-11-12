@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -23,7 +24,7 @@ public class GameManager : MonoBehaviour
     private float placeHolderSpaceVariable = 25;
 
     [SerializeField] private TextMeshProUGUI _victoryMessage;
-    [SerializeField] private TextMeshProUGUI _replayMessage;
+    [SerializeField] private List<TextMeshProUGUI> _endScreenMessages;
     
     private InputAction enterAction;
 
@@ -85,7 +86,10 @@ public class GameManager : MonoBehaviour
     void ResetGame()
     {
         _victoryMessage.gameObject.SetActive(false);
-        _replayMessage.gameObject.SetActive(false);
+        foreach (var msg in _endScreenMessages)
+        {
+            msg.gameObject.SetActive(false);
+        }
         
         AssignWords(_playersList);
         _gameState = GameState.Typing;
@@ -161,18 +165,30 @@ public class GameManager : MonoBehaviour
         if (_gameState != GameState.WinScreen) return;
         
         ResetGame();
+    }
 
-        //Escape to get back to main menu
-        //Remove enter thingy here
+    public void HandleEscape()
+    {
+        if (_gameState != GameState.WinScreen) return;
+        
+        GetBackToMainMenu();
     }
 
     public void OnWin(int playerIndex)
     {
         _victoryMessage.gameObject.SetActive(true);
         _victoryMessage.text = "Joueur " + playerIndex + " gagne!";
-        _replayMessage.gameObject.SetActive(true);
+        foreach (var msg in _endScreenMessages)
+        {
+            msg.gameObject.SetActive(true);
+        }
         
         _gameState = GameState.WinScreen;
+    }
+
+    private void GetBackToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
 

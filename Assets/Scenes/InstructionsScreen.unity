@@ -500,7 +500,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "S\xE9lectionner le nomber de joueur, puis appuyez sur Enter."
+  m_text: "S\xE9lectionner le nombre de joueur, puis appuyer sur Enter."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1043,6 +1043,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a53adca7-3e71-4dd1-9689-7f060f9c4813
     m_ActionName: 'EndOfGame/Enter[/Keyboard/enter]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 31207001-cbe6-4de2-83d2-bd63c30e7bf5
+    m_ActionName: 'EndOfGame/Escape[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: EndOfGame

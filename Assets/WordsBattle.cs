@@ -100,6 +100,15 @@ public partial class @WordsBattle: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""31207001-cbe6-4de2-83d2-bd63c30e7bf5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -113,6 +122,17 @@ public partial class @WordsBattle: IInputActionCollection2, IDisposable
                     ""action"": ""Enter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d94a0e45-b696-4712-b32b-2463a8bb122b"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -122,6 +142,7 @@ public partial class @WordsBattle: IInputActionCollection2, IDisposable
         // EndOfGame
         m_EndOfGame = asset.FindActionMap("EndOfGame", throwIfNotFound: true);
         m_EndOfGame_Enter = m_EndOfGame.FindAction("Enter", throwIfNotFound: true);
+        m_EndOfGame_Escape = m_EndOfGame.FindAction("Escape", throwIfNotFound: true);
     }
 
     ~@WordsBattle()
@@ -203,6 +224,7 @@ public partial class @WordsBattle: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_EndOfGame;
     private List<IEndOfGameActions> m_EndOfGameActionsCallbackInterfaces = new List<IEndOfGameActions>();
     private readonly InputAction m_EndOfGame_Enter;
+    private readonly InputAction m_EndOfGame_Escape;
     /// <summary>
     /// Provides access to input actions defined in input action map "EndOfGame".
     /// </summary>
@@ -218,6 +240,10 @@ public partial class @WordsBattle: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "EndOfGame/Enter".
         /// </summary>
         public InputAction @Enter => m_Wrapper.m_EndOfGame_Enter;
+        /// <summary>
+        /// Provides access to the underlying input action "EndOfGame/Escape".
+        /// </summary>
+        public InputAction @Escape => m_Wrapper.m_EndOfGame_Escape;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -247,6 +273,9 @@ public partial class @WordsBattle: IInputActionCollection2, IDisposable
             @Enter.started += instance.OnEnter;
             @Enter.performed += instance.OnEnter;
             @Enter.canceled += instance.OnEnter;
+            @Escape.started += instance.OnEscape;
+            @Escape.performed += instance.OnEscape;
+            @Escape.canceled += instance.OnEscape;
         }
 
         /// <summary>
@@ -261,6 +290,9 @@ public partial class @WordsBattle: IInputActionCollection2, IDisposable
             @Enter.started -= instance.OnEnter;
             @Enter.performed -= instance.OnEnter;
             @Enter.canceled -= instance.OnEnter;
+            @Escape.started -= instance.OnEscape;
+            @Escape.performed -= instance.OnEscape;
+            @Escape.canceled -= instance.OnEscape;
         }
 
         /// <summary>
@@ -308,5 +340,12 @@ public partial class @WordsBattle: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnEnter(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Escape" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnEscape(InputAction.CallbackContext context);
     }
 }
